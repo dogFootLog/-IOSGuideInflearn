@@ -66,7 +66,7 @@ httpError.statusCode
 httpError.description
 
 
-// 5. Optionals_1
+// 5. Optionals
 
 // 개념: 값이 있을 수도 있고, 없을 수도 있다.
 // 없는 상태 -> nil
@@ -113,8 +113,99 @@ var b: Int? = 20
 // 방법 1. coalesce
 var c = (a ?? 0) + (b ?? 0)
 
-// force unwrap -> 강제로, 무조건적으로
+// 방법 2. force unwrap -> 강제로, 무조건적으로
 // 주의사항: 느낌표에 무조건 값이 있다는 전제 하에 바꾸는 것
 // 값이 만일 없으면 crash남 (크리티컬)
 // 값 있다는 확신 없으면 쓰면 안됨!
 var d = a! + b!
+
+// 방법 3. if statements
+if a != nil {
+    print(a) // Optional(10) 출력
+    print(a!) // 10 출력
+}
+
+// if let
+// if var
+if let hasNumber = a {
+    // hasNumber = hasNumber * 2
+    // 에러남. let에 재할당 불가하기 때문
+    print(hasNumber) // 10 출력
+}
+
+// 스코프 범위는 이 if문 내에서만인 듯?
+if var hasNumber = b {
+    hasNumber = hasNumber * 2
+    print(hasNumber)
+}
+
+var m: Int?
+
+// 방법 4. guard let, guard var
+func testFunc () {
+    // 만일 m이 값이 없으면 함수를 그대로 return한다.
+    guard let hasNumber3 = m else {
+        return
+    }
+    print(hasNumber3)
+    print("end")
+}
+
+testFunc()
+
+
+
+// 6. Operators
+
+// 기초 연산자
+// Basic Operators
+
+// + - * / %(reminder Operator)
+
+let a6 = 20
+let b6 = 30
+
+let c6 = a6 / b6 // Int type으로 타입추론
+
+// 따라서 나누기를 해야할 일이 있으면 Double로 해야 함
+let d6: Double = 20
+let e6: Double = 30
+let f6 = d6 / e6
+
+let g6: Double = 20
+let h6: Int = 30
+// let i6 = g6 / h6
+// 같은 타입끼리 연산하는 게 아니라면 에러가 발생
+let i6 = g6 / Double(h6)
+// Swift 언어의 특징: 타입 엄격, 강타입, type safe
+
+// String 이어붙이기
+let aa = "hi"
+let bb = "hello"
+let cc = aa + bb // hihello
+
+// %
+// 홀수 짝수
+if a6 % 2 == 0 {
+    // a6 자리에 Double이 들어가 있으면 % 연산 불가
+    print("짝수")
+} else {
+    print("홀수")
+}
+
+var aaa = 2
+aaa = aaa + 2
+aaa += 2
+
+
+// 비교 연산자
+// Comparison Operators
+
+a6 == b6 // false
+a6 != b6 // true
+a6 > b6 // true
+
+aa > bb // true (String)
+// Unicode 숫자를 통해 비교
+"\u{62}" // "b"
+"\u{1F497}" // "💗"

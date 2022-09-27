@@ -193,6 +193,8 @@ if a6 % 2 == 0 {
     print("홀수")
 }
 
+print(7)
+
 var aaa = 2
 aaa = aaa + 2
 aaa += 2
@@ -221,11 +223,41 @@ let inputValue = "7"
 // "\u{39}" == "9"
 // inputValue가 둘 사이의 값이면 숫자
 
-print("테스트")
-
 if inputValue >= "\u{30}" && inputValue <= "\u{39}" {
     print("숫자")
 } else {
     print("숫자가 아니다.")
 }
 
+// String
+
+let myName2 = "lee min kim"
+
+for character in myName2 {
+    print(character)
+}
+
+let myLongStr =
+"""
+hi
+hello
+welcome
+"""
+
+print(myLongStr)
+
+let isOn = false
+isOn.description // false, true라는 글자가 출력됨
+
+let myNumber = 123
+myNumber.description // "123"
+String(myNumber) // "123"
+
+"my number is \(myNumber)" // "my number is 123"
+"my number is \(myNumber)".last // "3"
+
+"my number is \(myNumber)".dropLast() // "my number is 12"
+"my number is \(myNumber)".dropFirst() // "y number is 123"
+
+let myNumber2 = 12.33
+String(myNumber2).split(separator: ".") // ["12", "33"]

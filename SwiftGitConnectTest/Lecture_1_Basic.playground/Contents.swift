@@ -261,3 +261,55 @@ String(myNumber) // "123"
 
 let myNumber2 = 12.33
 String(myNumber2).split(separator: ".") // ["12", "33"]
+
+// Collection Type: Array, Set, Dictionary
+// Array, Dictionary 많이 씀
+
+// Array
+// Indexes(0, 1, 2...), Values
+
+// var mynames = Array() // 'Element' could not be inferred
+// Swift는 type safe 언어이므로 초기화(메모리에 올리기)하려면 타입을 표시해줘야 함
+var myNames = Array<String>()
+var myAges = [Int]()
+// 둘 다 가능
+
+myNames.append("kim")
+myNames.append("lee")
+myNames.append("jin")
+
+myNames
+myNames[0] // "kim"
+// myNames[3] // App Crush
+// index out of range이면 앱 크러쉬 나기 때문에 방어코드(안전한 코딩 스타일) 필요
+
+let index = 3
+
+if myNames.count > index {
+    myNames[index] // 3이면 실행이 되지 않음
+}
+
+myNames.append(contentsOf: ["hi", "hello"])
+myNames
+
+myNames = myNames + ["kk"]
+
+myNames.remove(at: 3)
+myNames
+
+myNames.removeFirst()
+myNames
+
+if myNames.isEmpty {
+    // myNames.count == 0
+}
+
+myNames.insert("hahaha", at: 2)
+
+for name in myNames {
+    print(name + "님")
+}
+
+for (index, name) in myNames.enumerated() {
+    print(index, name)
+}

@@ -313,3 +313,18 @@ for name in myNames {
 for (index, name) in myNames.enumerated() {
     print(index, name)
 }
+
+
+// Set
+
+// 하나의 값을 넣으면 들어가는데 Array와 달리 index, 순서의 개념이 없음
+
+var names = Set<String>()
+names.insert("kim")
+names.insert("min")
+names.insert("lee")
+names // 순서 보장 X
+names.insert("lee")
+names // 같은 값을 넣으면 값이 추가가 되지 않음
+
+

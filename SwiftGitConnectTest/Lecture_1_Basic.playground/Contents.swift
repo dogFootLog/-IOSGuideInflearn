@@ -327,4 +327,5 @@ names // 순서 보장 X
 names.insert("lee")
 names // 같은 값을 넣으면 값이 추가가 되지 않음
 
-
+var sameNames = ["lee", "lee", "kim", "lee"]
+Set(sameNames)

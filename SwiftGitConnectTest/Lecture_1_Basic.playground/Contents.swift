@@ -329,3 +329,19 @@ names // 같은 값을 넣으면 값이 추가가 되지 않음
 
 var sameNames = ["lee", "lee", "kim", "lee"]
 Set(sameNames)
+// 다른 것만 남게 됨. 비슷한 형태들끼린 타입 캐스팅이 가능
+
+var names2: Set = ["lee", "kim", "Min"]
+// array와 선언법은 똑같은데 :Set 이라고 표기해줘야 함
+
+var numbers1: Set = [1, 2, 3, 4, 5]
+var numbers2: Set = [4, 5, 6, 7, 8]
+
+// 교집합
+numbers1.intersection(numbers2)
+// 합집합
+numbers1.union(numbers2)
+// 합집합 - 교집합 (대칭차지밥)
+numbers1.symmetricDifference(numbers2)
+// 여집합
+numbers1.subtracting(numbers2)

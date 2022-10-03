@@ -345,3 +345,28 @@ numbers1.union(numbers2)
 numbers1.symmetricDifference(numbers2)
 // 여집합
 numbers1.subtracting(numbers2)
+
+
+// Dictionary
+
+// key + value
+
+var namesOfStreet = [ String : Any ]()
+
+namesOfStreet["302ro"] = "1st Street"
+namesOfStreet["303ro"] = "2nd Street"
+namesOfStreet["304ro"] = 3
+
+namesOfStreet // ["304ro": 3, "303ro": "2nd Street", "302ro": "1st Street"]
+
+namesOfStreet["305ro"]
+namesOfStreet["302ro"] = nil
+
+namesOfStreet // ["304ro": 3, "303ro": "2nd Street"]
+
+var namesOfStreet2 = ["a": 1, "b": 2, "c": 3]
+namesOfStreet2
+
+for dic in namesOfStreet {
+    print(dic)
+}

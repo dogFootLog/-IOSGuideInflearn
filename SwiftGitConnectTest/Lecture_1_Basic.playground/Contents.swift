@@ -370,3 +370,55 @@ namesOfStreet2
 for dic in namesOfStreet {
     print(dic)
 }
+
+
+// Control flow (호름 제어)
+
+let name = "32341234"
+
+for char in name {
+    print(Int(String(char))) // 그냥 char은 String.Element 타입이기 때문에 String 타입으로의 타입캐스팅 필요
+    // 단 Optional Int라서 Optional(3)처럼 나옴
+    print((Int(String(char)) ?? 0) * 10)
+}
+
+let numberOfLegs = ["ant": 6, "dog": 4]
+
+for dic in numberOfLegs {
+    print(dic)
+}
+
+for index in 0...5 {
+    print(index) // 0 1 2 3 4 5
+}
+
+for index in 0..<5 {
+    print(index) // 0 1 2 3 4
+}
+
+// 웬만하면 비추
+// 무한루프 -> CPU 리소스 소진
+
+let a1 = 0
+
+while a1 != 0 {
+    // code
+    // a1 == 0인 동안 계속 실행
+    // MAC은 1개의 스레드가 CPU 전체를 쓰지는 못하게끔 설계되어 있음에도 굉장히 느려짐
+    // iPhone은 커버 불가
+}
+
+
+// Switch
+// 조건에 케이스 만들어서 분기
+
+let b1 = "c"
+
+switch b1 {
+case "a", "m":
+    print("a or m")
+case "b":
+    print("b")
+default:
+    print("other")
+}

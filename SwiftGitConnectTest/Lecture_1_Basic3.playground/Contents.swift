@@ -1,4 +1,5 @@
 import UIKit
+import Foundation
 
 
 // Initializer
@@ -131,11 +132,11 @@ struct SomeStruct {
     }
 }
 
-class NewInfo {
+class SomeInfo {
     var myAge = 0
 }
 
-var info1 = NewInfo()
+var info1 = SomeInfo()
 var info2 = info1
 var info3 = info2
 
@@ -162,3 +163,284 @@ imageType2.type
 imageType3.type
 
 // struct는 상속도 되지 않음!
+
+
+// Extension
+// 기능 확장
+// struct, class, enum, protocol
+
+// 숫자(Int) 짝수, 홀수
+extension Int {
+    var odOrEven: String {
+        if self % 2 == 0 {
+            return "짝수"
+        }
+        return "홀수"
+    }
+}
+
+3.odOrEven // 홀수
+4.odOrEven // 짝수
+
+// UIColor
+// mainColor2 = xxx
+// subColor2 = xxx
+extension UIColor {
+    // class 타입으로 변수 만들어주면 인스턴스화가 필요 없어짐
+    // class 대신 static 써도 가능
+    class var mainColor1: UIColor {
+        UIColor(red: 50/255, green: 70/255, blue: 120/255, alpha: 1)
+    }
+}
+
+var button = UIButton()
+
+/*
+button.titleLabel?.textColor = UIColor().mainColor1
+
+// 그런데 orange는 ()가 필요 없음 --> UIColor의 인스턴스화가 필요 없다.
+button.titleLabel?.textColor = UIColor.orange
+button.titleLabel?.textColor = .orange
+// UIColor 생략도 가능
+*/
+
+button.titleLabel?.textColor = UIColor.mainColor1
+button.titleLabel?.textColor = .mainColor1
+
+
+
+// Protocol
+// 규격, 규약, 규칙, 청사진, 뼈대
+
+protocol UserInfo {
+    var name: String { get set }
+    // set이 없으면 set이 있을 수도 없을 수도
+    var age: Int { get }
+    // 구체적인 값을 선언해서는 안됨
+    func isAdult() -> Bool
+}
+
+// 그런데 isAdult는 다 똑같으니깐 Class로 만들어서 상속을 하거나
+// 혹은 extension으로!!
+extension UserInfo {
+    func isAdult() -> Bool {
+        if age > 19 {
+            return true
+        }
+        return false
+    }
+}
+
+protocol UserScore {
+    var score: Int { get set }
+}
+
+protocol UserDetailInfo: UserInfo, UserScore {
+    // 프로토콜 합성도 가능
+}
+
+// 여러 프로토콜 상속도 가능
+class Guest: UserInfo, UserScore {
+    var name = "kim"
+    let age = 20
+    // age에서 set을 지우면 let으로 해도 괜찮음
+    var score = 30
+}
+class Member: UserInfo {
+    var name: String
+    let age: Int
+    
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+}
+class VIPMember: UserInfo {    
+    var name = "lee"
+    var age = 30
+}
+
+class UserInfoPresenter {
+    func present() {
+        
+        let guest = Guest()
+        let member = Member(name: "jane", age: 25)
+        // member.age = 100 // let이니깐 재할당 불가
+        let vip = VIPMember()
+        
+        // let members = [guest, member, vip] as [Any]
+        // 타입이 다 달라서 에러 발생
+        
+        let members: [UserInfo] = [guest, member, vip]
+        // 이렇게 protocol로도 하나의 array로 묶는 게 가능
+        
+        // print(guest.name)
+        // print(member.name)
+        // print(vip.name)
+        
+        for element in members {
+            print(element.age)
+        }
+        
+    }
+}
+
+let presenter = UserInfoPresenter()
+presenter.present()
+
+
+// Inheritance
+// 상속 - Class에서만 가능
+
+// enum, structure, protocol에서는 불가
+
+// protocol
+
+class NewInfo {
+    var name = "super"
+    var age = 0
+    func isAdult() -> Bool {
+        if age > 19 {
+            return true
+        }
+        return false
+    }
+}
+
+class Guest1: NewInfo {
+    // 슈퍼클래스에서 구현을 일부 하므로 아무것도 추가구현하지 않아도 되긴 함
+    override func isAdult() -> Bool {
+        return true
+    }
+    
+    func present() {
+        name = "kim"
+        print(name)
+        print(super.name) // 둘 다 kim이 나옴. override 없으면 super걸 그대로 사용
+        print(isAdult())
+        print(super.isAdult()) // 오버라이드된 건 super class와 별도
+    }
+}
+
+let guest1 = Guest1()
+guest1.present()
+
+
+
+// Generic <Type 내가 정한 임의의 타입>
+// 로직 반복, 타입 여러가지
+
+// stack
+struct IntStack {
+    var items = [Int]()
+    
+    mutating func push(item: Int) {
+        items.append(item)
+        // structure 내부에서는 변경할 때 mutating 키워드 필수
+    }
+    
+    mutating func pop() -> Int? {
+        if items.isEmpty {
+            return nil
+        }
+        return items.removeLast()
+    }
+}
+
+var myStack = IntStack()
+
+myStack.push(item: 4)
+myStack.push(item: 5)
+myStack.push(item: 6)
+
+myStack.pop()
+myStack.pop()
+myStack.pop()
+myStack.pop()
+myStack
+
+// 이걸 Int만이 아니라 다양한 타입으로 쓰고 싶다면!
+
+// structure NewStack<MyType> where MyType: Equatable
+// dictionary 타입은 안됨
+// 이런 식으로 where MyType: 식으로 씀.
+struct NewStack<MyType> {
+    
+    var items = [MyType]()
+    
+    mutating func push(item: MyType) {
+        items.append(item)
+        // structure 내부에서는 변경할 때 mutating 키워드 필수
+    }
+    
+    mutating func pop() -> MyType? {
+        if items.isEmpty {
+            return nil
+        }
+        return items.removeLast()
+    }
+}
+
+var myStack2 = NewStack<String>()
+
+myStack2.push(item: "4")
+myStack2.push(item: "5")
+myStack2.push(item: "6")
+
+myStack2.pop()
+myStack2.pop()
+myStack2.pop()
+myStack2.pop()
+myStack2
+
+
+
+// higher order functions
+// 고차함수
+
+let names = ["kim", "lee", "min", "john"]
+
+// map ->
+let names2 = names.map { $0 + "님" }
+names2
+
+let names3 = names.map { name in
+    name.count
+}
+
+let names4 = names.map { name in
+    name.count > 3
+}
+
+// filter -> 거른다
+let filterNames = names.filter { name in
+    name.count > 3
+}
+filterNames
+
+// reduce 하나로 뭉친다, 통합, 합친다...
+names.reduce("") { (first, second)  in
+    return first + second
+}
+
+let sumName = names.reduce("aaa") {
+    $0 + $1
+}
+sumName
+
+let numberArr = [1, 2, 3, 4, 5, nil, 6, nil, 8]
+let sumNum = numberArr.reduce(0) { $0 + ($1 ?? 0) }
+sumNum
+
+// compactMap
+// nil 자동처리를 원하는 경우
+let numbers = numberArr.compactMap { (num) in
+    return num
+}
+numbers
+
+// flatmap
+let numbers2 = [[1, 2, 3], [4, 5, 6]]
+
+let flatNum = numbers2.flatMap{ $0 }
+flatNum

@@ -276,3 +276,167 @@ for book in books {
 
 
 // Class
+
+class MyInfo {
+    
+    init(gender: GenderType) {
+        self.genderType = gender
+    }
+    
+    // 이 enum은 밖에다 만들어도 되긴 함
+    enum GenderType {
+        case male
+        case female
+    }
+    
+    // 내부에서만 쓰고 밖에선 입력 못하게 함 --> 재설정 불가
+    private var genderType: GenderType
+    
+    // 초기값 따로 설정 안해줄거면 init()에서 설정해줘야 함
+    var name = ""
+    var age = 0
+    
+    func isAdult() -> Bool {
+        if age > 19 {
+            return true
+        }
+        return false
+    }
+}
+
+var myInfo = MyInfo(gender: .female)
+// myInfo.genderType = .male // private이면 재설정 불가
+
+myInfo.age = 20
+
+// 참조에 의한 복사
+var myInfo2 = myInfo
+myInfo2.age = 30
+
+var myInfo3 = myInfo
+myInfo3.age = 100
+
+myInfo.age
+myInfo2.age
+myInfo3.age
+// 전부 200
+
+
+// Class - Inheritance
+// 상속
+
+/*
+class Soccer {
+    var homeScore = 0
+    var awayScore = 0
+    func presentScore() -> String {
+        return homeScore.description + " : " + awayScore.description
+    }
+}
+
+class Baseball {
+    var homeScore = 0
+    var awayScore = 0
+    func presentScore() -> String {
+        return homeScore.description + " : " + awayScore.description
+    }
+}
+
+let soccer = Soccer()
+let baseball = Baseball()
+
+soccer.presentScore()
+baseball.presentScore()
+*/
+
+class GameInfo {
+    var homeScore = 0
+    var awayScore = 0
+    func presentScore() -> String {
+        return homeScore.description + " : " + awayScore.description
+    }
+    final func finalScore() -> String {
+        return "fianl은 수정 불가"
+    }
+}
+
+// 공통은 상속, 개별은 따로 추가
+
+class Soccer: GameInfo {
+    var time = 0
+}
+class Baseball: GameInfo {
+    var round = 0
+}
+class Football: GameInfo {
+    override func presentScore() -> String {
+        return homeScore.description + " 대 " +  awayScore.description
+    }
+    // finalScore은 override 불가
+}
+
+let soccer = Soccer()
+soccer.awayScore = 1
+soccer.homeScore = 2
+soccer.presentScore()
+
+let baseball = Baseball()
+baseball.homeScore = 30
+baseball.awayScore = 20
+baseball.presentScore()
+
+let football = Football()
+football.homeScore = 15
+football.awayScore = 10
+football.presentScore()
+
+
+// Properties
+// 프로퍼티
+
+class YourInfo {
+    
+    // stored property (저장
+    var name = ""
+    var age = 0
+    
+    // lazy stored property
+    // 처음부터 호출하면서 메모리에 띄울 필요는 없으므로 천천히 로드함
+    lazy var yourProfiles = [UIImage(named: "a"), UIImage(named: "b"), UIImage(named: "c"), UIImage(named: "d")]
+    
+    // computed property (외부에서 값 넣기 불가)
+    var isAdult: Bool {
+        // 엄밀하게는 get{} 안에 아래 내용이 들어가 있는 것
+        // set{}은 생략 불가
+        if age > 19 {
+            return true
+        }
+        return false
+    }
+    
+    // email -> 보안 -> 암호화된 값으로 사용 (항상)
+    var _email = "" // 값을 받기 위한 임시 변수. 이름 노상관
+    var email: String {
+        get{
+           return _email
+        }
+        set{
+            _email = newValue.hash.description
+        }
+    }
+    
+}
+
+let yourInfo = YourInfo()
+
+yourInfo.age = 10
+yourInfo.name = "kim"
+// 이때까지 lazy var는 메모리에 올라가지 않음
+// 이렇게 사용할 때 비로소 올라가게 됨
+yourInfo.yourProfiles
+
+// yourInfo.isAdult = true
+// Cannot assign to property
+
+yourInfo.email = "abc@test.com"
+yourInfo.email
